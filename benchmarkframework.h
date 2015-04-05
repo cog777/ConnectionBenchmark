@@ -134,7 +134,7 @@ public slots:
 
 			for (qint32 idx = 0; idx < ITERATION_NUMBER / 1000; ++idx)
 			{
-				callFnc();
+				emit callFnc();
 			}
 
 
@@ -155,7 +155,7 @@ public slots:
 
 			for (qint32 idx = 0; idx < ITERATION_NUMBER / 1000; ++idx)
 			{
-				callFnc();
+				emit callFnc();
 			}
 
 
