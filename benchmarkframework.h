@@ -1,6 +1,7 @@
 #ifndef BENCHMARKFRAMEWORK_H
 #define BENCHMARKFRAMEWORK_H
 
+#include <QCoreApplication>
 #include <QObject>
 #include <QTime>
 #include <QDebug>
@@ -103,7 +104,7 @@ public slots:
 
 		}
 		{
-			QSharedPointer<DirectCall> dc[ITERATION_NUMBER];
+			QSharedPointer<DirectCall>* dc = new QSharedPointer<DirectCall>[ITERATION_NUMBER];
 			for (qint32 idx = 0; idx < ITERATION_NUMBER; ++idx)
 			{
 				dc[idx] = QSharedPointer<DirectCall>(new DirectCall);
@@ -117,7 +118,7 @@ public slots:
 			}
 
 			qDebug() << "Elapsed time in ms: " << timer.elapsed();
-
+			delete[] dc;
 		}
 
 		{
@@ -134,11 +135,12 @@ public slots:
 
 			for (qint32 idx = 0; idx < ITERATION_NUMBER / 1000; ++idx)
 			{
-				callFnc();
+				emit callFnc();
 			}
 
 
 			qDebug() << "Elapsed time in ms: " << timer.elapsed();
+			qDebug() << "Calls per second : " <<  sizeof(dc)/sizeof(SignalSlotCall) * 1000 / timer.elapsed();
 		}
 
 		{
@@ -155,15 +157,15 @@ public slots:
 
 			for (qint32 idx = 0; idx < ITERATION_NUMBER / 1000; ++idx)
 			{
-				callFnc();
+				emit callFnc();
 			}
 
 
 			qDebug() << "Elapsed time in ms: " << timer.elapsed();
+			qDebug() << "Calls per second : " <<  sizeof(dc)/sizeof(SignalSlotCall) * 1000 / timer.elapsed();
 		}
 
-
-
+		qApp->quit();
 	}
 };
 
