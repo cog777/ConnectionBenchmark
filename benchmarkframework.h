@@ -103,7 +103,7 @@ public slots:
 
 		}
 		{
-			QSharedPointer<DirectCall> dc[ITERATION_NUMBER];
+			QSharedPointer<DirectCall>* dc = new QSharedPointer<DirectCall>[ITERATION_NUMBER];
 			for (qint32 idx = 0; idx < ITERATION_NUMBER; ++idx)
 			{
 				dc[idx] = QSharedPointer<DirectCall>(new DirectCall);
@@ -117,7 +117,7 @@ public slots:
 			}
 
 			qDebug() << "Elapsed time in ms: " << timer.elapsed();
-
+			delete[] dc;
 		}
 
 		{
